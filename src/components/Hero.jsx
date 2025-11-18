@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import Spline from "@splinetool/react-spline";
 
 export default function Hero() {
   return (
@@ -31,14 +30,63 @@ export default function Hero() {
           <div className="mt-6 text-xs text-gray-500">BAFE • NSI Gold • 24/7 Monitoring</div>
         </motion.div>
 
+        {/* Visual Panel (replaces external Spline scene to avoid 403 errors) */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-          className="relative h-[360px] sm:h-[420px] lg:h-[520px] rounded-2xl overflow-hidden border border-black/5 bg-white/50"
+          className="relative h-[360px] sm:h-[420px] lg:h-[520px] rounded-2xl overflow-hidden border border-black/5 bg-gradient-to-br from-white to-orange-50"
         >
-          <Spline scene="https://prod.spline.design/T2vM1rH3QkHkDq7y/scene.splinecode" />
+          <div className="absolute inset-0">
+            <div className="absolute -top-16 -left-16 h-72 w-72 rounded-full bg-red-500/20 blur-3xl" />
+            <div className="absolute -bottom-16 -right-16 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
+          </div>
+
+          <div className="relative h-full w-full p-8 flex flex-col">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="text-sm font-semibold text-gray-700"
+            >
+              Live Protection Dashboard
+            </motion.div>
+
+            <div className="mt-4 grid grid-cols-3 gap-4">
+              {[
+                { label: "Fire Alarms", emoji: "🔥", color: "from-red-500 to-orange-500" },
+                { label: "Security", emoji: "🛡️", color: "from-emerald-500 to-teal-500" },
+                { label: "Fire Doors", emoji: "🚪", color: "from-amber-500 to-yellow-500" },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.2 + i * 0.1 }}
+                  className="rounded-xl border border-black/5 bg-white/60 backdrop-blur p-4 shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className={`h-10 w-10 rounded-lg bg-gradient-to-br ${item.color} text-white grid place-items-center text-lg`}>{item.emoji}</div>
+                  <div className="mt-3 font-semibold">{item.label}</div>
+                  <div className="text-xs text-gray-500">Monitored • Certified • Maintained</div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="mt-auto">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="h-2 rounded-full bg-gray-100 overflow-hidden"
+              >
+                <div className="h-full w-1/2 bg-gradient-to-r from-red-500 to-orange-500" />
+              </motion.div>
+              <div className="mt-3 text-xs text-gray-500">System Health: Excellent</div>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
